@@ -78,6 +78,31 @@ def interpret_signal(signal: str) -> str:
     current_tree = tree
     out_char = ""
 
+    if signal == "":
+        return " "
+    
+    current_tree = tree
+    out_char = ""
+
+    for sign in signal:
+        current_chars = current_tree[0]
+        dot_tree = current_tree[1]
+        dash_tree = current_tree[2]
+
+        if sign == ".":
+            out_char = current_chars[0]
+            current_tree = dot_tree
+        elif sign == "-":
+            out_char = current_chars[1]
+            current_tree = dash_tree
+        else:
+            raise ValueError("Invalid Morse signal")
+        
+    if out_char == "":
+        raise ValueError("Invalid Morse signal")
+    
+    return out_char
+
     # TODO:
     # 1. If signal == "", return " " to represent a word boundary.
     # 2. Loop through each sign in signal.
@@ -100,7 +125,13 @@ def interpret_message(message: str) -> str:
     - single space separates characters
     - double space separates words
     """
+    chars = message.split(" ")
     out_text = ""
+
+    for char in chars:
+        out_text += interpret_signal(char)
+
+    return out_text
 
     # TODO:
     # 1. Split message by " " into Morse tokens.
